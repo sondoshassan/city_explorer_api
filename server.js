@@ -41,23 +41,20 @@ function Weather(dataWeath,i){
   this.forecast = dataWeath.data[i].weather.description;
   this.time = dataWeath.data[i].valid_date;
 }
+server.use('/',(req,res)=>{
+  res.status(500).send(new UserError());
+});
 
-
-
+function UserError(){
+  this.status = 500;
+  this.responseText = 'Sorry, something went wrong';
+}
 
 server.get('*',(req,res)=>{
   res.status(404).send('The page is not excit');
 })
 
-server.use((error,req,res)=>{
-  res.status(500).send(new UserError(error));
-});
 
-function UserError(error){
-  this.status = 500;
-  this.responseText = 'Sorry, something went wrong';
-  this.error = error;
-}
 
 server.listen( PORT, () =>{
   console.log(`listen ${PORT}`);
