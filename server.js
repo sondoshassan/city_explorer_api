@@ -44,7 +44,7 @@ function Weather(dataWeath,i){
 
 
 server.get('/',(req,res)=>{
-  res.send('Hi! you can complete url location?city:Lynnwood or weather');
+  res.send('Hi! you can complete url /location?city=Lynnwood or /weather');
 })
 server.get('*',(req,res)=>{
   res.status(404).send('The page is not excit');
