@@ -48,6 +48,10 @@ server.get('/',(req,res)=>{
 server.get('*',(req,res)=>{
   res.status(404).send('You have an error');
 })
+server.use((eror,req,res)=>{
+  console.log(eror);
+  res.status(500).send({status:500,responseText:'Sorry, something went wrong'});
+})
 
 
 server.listen( PORT, () =>{
