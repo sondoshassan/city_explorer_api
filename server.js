@@ -79,7 +79,7 @@ function dataTrails(nameCity) {
   locationData(nameCity)
     .then(val => {return val;});
   const key = process.env.TRAIL_API;
-  const secondUrl = `https://www.hikingproject.com/data/get-trails?lat=${lat}&lon=${long}&maxDistance=300&key=${key}`;
+  const secondUrl = `https://www.hikingproject.com/data/get-trails?lat=${lat}&lon=${long}&maxDistance=300&maxResults=10&key=${key}`;
   return superagent.get((secondUrl))
     .then(val => {
       const dataArray = val.body.trails;
