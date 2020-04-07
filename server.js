@@ -32,6 +32,7 @@ function chechDataBase(nameCity) {
         return val.rows[0];
       }
       else {
+        console.log('are you enter');
         return locationData(nameCity)
           .then(val => {
             console.log('ssssssssss ',val);
@@ -103,9 +104,7 @@ function trailHandler(req,res){
 }
 
 
-function dataTrails(nameCity) {
-  locationData(nameCity)
-    .then(val => {return val;});
+function dataTrails() {
   const key = process.env.TRAIL_API;
   const secondUrl = `https://www.hikingproject.com/data/get-trails?lat=${lat}&lon=${long}&maxDistance=150&maxResults=10&key=${key}`;
   return superagent.get((secondUrl))
