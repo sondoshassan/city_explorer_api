@@ -43,6 +43,7 @@ function chechDataBase(nameCity) {
 
 function locationData(nameCity) {
   let key = process.env.LOCATION_KEY_API;
+  console.log('are you here');
   const geoData = `https://eu1.locationiq.com/v1/search.php?key=${key}&q=${nameCity}&format=json`;
   return superagent.get(geoData)
     .then(val => {
