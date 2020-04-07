@@ -1,21 +1,44 @@
 'use strict';
 
-let express = require('express');
-let server = express();
-const cors = require('cors');
 require('dotenv').config();
+let express = require('express');
+const cors = require('cors');
+const pg = require('pg');
 const superagent = require('superagent');
+let server = express();
 const PORT = process.env.PORT || 3000;
 server.use(cors());
+const client = new pg.Client(process.env.DATABASE_URL);
+client.on('error',error => console.log(error));
 let long;
 let lat;
 
+// for the location
 server.get('/location',convertSearchQuery);
 
 function convertSearchQuery(req, res) {
   const nameCity = req.query.city;
-  locationData(nameCity)
-    .then(val => res.status(200).json(val));
+  chechDataBase(nameCity)
+    .then(val => res.status(200).send(val));
+}
+
+function chechDataBase(nameCity) {
+  let SQL = 'SELECT * FROM location WHERE city = ($1)';
+  let safeValues = [nameCity];
+  return client.query(SQL, safeValues)
+    .then(val => {
+      if (val.rows[0]) {
+        console.log('from tab ', val.rows[0]);
+        return val.rows[0];
+      }
+      else {
+        return locationData(nameCity)
+          .then(val => {
+            console.log('ssssssssss ',val);
+            return val;});
+      }
+    })
+    .catch(err => console.log(err));
 }
 
 function locationData(nameCity) {
@@ -26,6 +49,10 @@ function locationData(nameCity) {
       const locate = new Location(nameCity, val.body);
       long = locate.longitude;
       lat = locate.latitude;
+      let SQL = 'INSERT INTO location (city,formatted_query,latitude,longitude) VALUES ($1,$2,$3,$4);';
+      let safeValues = [locate.city,locate.formatted_query,locate.latitude,locate.longitude];
+      client.query(SQL,safeValues)
+        .then(result => {return result;});
       return locate;
     });
 
@@ -38,7 +65,7 @@ function Location(nameCity,data){
   this.longitude = data[0].lon;
 }
 
-// localhost:3000/weather
+// localhost:3030/weather
 server.get('/weather',responseWeather);
 
 function responseWeather(req,res){
@@ -121,7 +148,11 @@ function UserError(error){
   this.error = error;
 }
 
+client.connect()
+  .then(()=>{
+    server.listen( PORT, () =>{
+      console.log(`listen ${PORT}`);
+    });
+  });
 
-server.listen( PORT, () =>{
-  console.log(`listen ${PORT}`);
-})
+
