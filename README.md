@@ -99,3 +99,38 @@ I use javascript language and SQL.
 ## Credits and Collaborations
 https://dashboard.heroku.com/apps is the host of my server
 https://codefellows.github.io/code-301-guide/curriculum/city-explorer-app/front-end/     to check your code
+
+*********************************************************************8
+
+## feature 4
+Number and name of feature: #4
+
+Estimate of time needed to complete:  4 hours
+Start time: 1
+
+Finish time: 9
+
+Actual time needed to complete: 8 hours
+**************************************************
+# Project Name
+
+**Author**: Sondos Elayyan
+**Version**: 4.0.0 (increment the patch/fix version number if you make more commits past your first submission)
+
+## Overview
+this application get the data from API for yelp, movie, weather, trials and location. also, I created database for movie and yelp.
+
+## Getting Started
+at first create the repo with .gitignore node and create file .env and check is this file in gitignore by this command `git check-ignore <filename>` then start to install express, cors and dotenv. the next step get the data from json file and send it as a response for user finally deploy your web in heroku.
+
+## Architecture
+I use javascript language. and I use SQL.
+
+## Change Log
+
+08-04-2020 9:36pm - Application now has a fully-functional express server, with a GET route for the location resource.
+
+## Credits and Collaborations
+https://dashboard.heroku.com/apps is the host of my server
+https://codefellows.github.io/code-301-guide/curriculum/city-explorer-app/front-end/     to check your code
+
