@@ -10,7 +10,7 @@ client.connect()
   .then();
 //object
 
-const main = require('./server');
+const main = require('./server.js');
 
 //
 function yelpHandler(req, res) {
@@ -43,6 +43,7 @@ function chechDataBaseYelp(nameCity) {
 function dataYelp(nameCity) {
   const apiKey = process.env.YELP_API;
   let url = `https://api.yelp.com/v3/businesses/search?location=${nameCity}`;
+  console.log('are you enter??');
   return superagent.get(url)
     .set('Authorization',`Bearer ${apiKey}`)
     .then(val => {
