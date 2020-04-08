@@ -22,3 +22,17 @@ popularity NUMERIC,
 released_on VARCHAR(255)
 );
 
+DROP TABLE IF EXISTS yelp;
+
+CREATE TABLE IF NOT EXISTS yelp(
+id SERIAL PRIMARY KEY, 
+city VARCHAR(255),
+name VARCHAR(255),
+image_url VARCHAR(255),
+price VARCHAR(255),
+rating NUMERIC,
+url VARCHAR(255)
+);
+
+
+

@@ -199,22 +199,49 @@ function Movies(data) {
 // yelp
 
 
-server.get('/movies', yelpHandler);
+server.get('/yelp', yelpHandler);
 function yelpHandler(req, res) {
-  dataYelp()
-    .then(val => res.status(200).json(val));
+  let nameCity = req.query.city;
+  chechDataBaseYelp(nameCity)
+    .then(val => res.status(200).send(val));
+}
+
+function chechDataBaseYelp(nameCity) {
+  let SQL = 'SELECT * FROM yelp WHERE city = ($1);';
+  let safeValues = [nameCity];
+  return client.query(SQL, safeValues)
+    .then(val => {
+      if (val.rows[0]) {
+        console.log('from tabYelp SQL');
+        return val.rows.slice(0,19);
+      }
+      else {
+        console.log('are you enterYelp from API');
+        return dataYelp(nameCity)
+          .then(val => {
+            return val;
+          });
+      }
+    })
+    .catch(err => errorHandler(err));
 }
 
 
-function dataYelp() {
+function dataYelp(nameCity) {
   const apiKey = process.env.YELP_API;
-  let url = 'https://api.yelp.com/v3/businesses/search';
+  let url = `https://api.yelp.com/v3/businesses/search?location=${nameCity}`;
   return superagent.get(url)
     .set('Authorization',`Bearer ${apiKey}`)
     .then(val => {
       const dataArray = val.body.businesses;
       let arrayResult = dataArray.map(val => {
         const theTarget = new Yelp(val);
+        let SQL = 'INSERT INTO yelp (city,name,image_url,price,rating,url) VALUES ($1,$2,$3,$4,$5,$6);';
+        let safeValues = [nameCity,theTarget.name,theTarget.image_url,theTarget.price,theTarget.rating,theTarget.url];
+        client.query(SQL, safeValues)
+          .then(result => {
+            return result; })
+          .catch(err => console.log(err));
         return theTarget;
       });
       return arrayResult;
