@@ -26,7 +26,7 @@ function chechDataBase(nameCity) {
   return client.query(SQL, safeValues)
     .then(val => {
       if (val.rows[0]) {
-        console.log('from tab ', val.rows[0]);
+        console.log('from tab SQL location');
         main.long = val.rows[0].longitude;
         main.lat = val.rows[0].latitude;
         return val.rows[0];
@@ -35,7 +35,7 @@ function chechDataBase(nameCity) {
         console.log('are you enter');
         return locationData(nameCity)
           .then(val => {
-            console.log('ssssssssss ', val);
+            console.log('from API location');
             return val;
           });
       }
@@ -45,7 +45,6 @@ function chechDataBase(nameCity) {
 
 function locationData(nameCity) {
   let key = process.env.LOCATION_KEY_API;
-  console.log('are you here');
   const geoData = `https://eu1.locationiq.com/v1/search.php?key=${key}&q=${nameCity}&format=json`;
   return superagent.get(geoData)
     .then(val => {

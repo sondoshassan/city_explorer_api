@@ -37,7 +37,7 @@ function chechDataBaseYelp(nameCity) {
           });
       }
     })
-    .catch(err => main.errorHandler(err));
+    .catch(err => console.log(err));
 }
 
 function dataYelp(nameCity) {
