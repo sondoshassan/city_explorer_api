@@ -52,12 +52,16 @@ function locationData(nameCity) {
       const locate = new Location(nameCity, val.body);
       main.long = locate.longitude;
       main.lat = locate.latitude;
-      let SQL = 'INSERT INTO location (city,formatted_query,latitude,longitude) VALUES ($1,$2,$3,$4);';
-      let safeValues = [locate.city, locate.formatted_query, locate.latitude, locate.longitude];
-      client.query(SQL, safeValues)
-        .then(result => { return result; });
+      saveinDataBase(locate);
       return locate;
     });
+}
+
+function saveinDataBase(locate) {
+  let SQL = 'INSERT INTO location (city,formatted_query,latitude,longitude) VALUES ($1,$2,$3,$4);';
+  let safeValues = [locate.city, locate.formatted_query, locate.latitude, locate.longitude];
+  client.query(SQL, safeValues)
+    .then(result => { return result; });
 }
 
 function Location(nameCity, data) {
